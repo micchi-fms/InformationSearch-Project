@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 mysql-connector-python-rf = "*"
 configparser = "*"
+"mecab-python3" = "*"
+numpy = "*"
+scipy = "*"
+scikit-learn = "*"
 
 [dev-packages]
 
