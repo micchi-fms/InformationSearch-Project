@@ -1,22 +1,63 @@
 # 必要なモジュールの読み込み
-from flask import Flask, jsonify, abort, make_response
+from flask import Flask, jsonify, abort, make_response,request
+import mysql.connector
+import configparser
 
 # Flaskクラスのインスタンスを作成
 # __name__は現在のファイルのモジュール名
-api = Flask(__name__)
+app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False #日本語文字化け対策
+app.config["JSON_SORT_KEYS"] = False #ソートをそのまま
+config = configparser.ConfigParser()
+# 設定ファイルを読み込み
+config.read('config.ini')
 
-# GETの実装
-@api.route('/get', methods=['GET'])
-def get():
-    result = { "greeting": 'hello flask' }
-    return make_response(jsonify(result))
+def getConnection():
+    return mysql.connector.connect(
+        host = config['detabase_server']['host'],
+        port = config['detabase_server']['port'],
+        user = config['detabase_server']['user'],
+        password = config['detabase_server']['password'],
+        database = config['detabase_server']['database'],
+    )
+
+
+# POSTの実装
+@app.route('/year', methods=['POST'])
+def post():
+    #POST通信
+    if request.method == 'POST':
+        conn = getConnection()
+        connected = conn.is_connected()
+        if (not connected):
+            return make_response(jsonify({"DB ERROR": 'could not connect to db'}))
+        conn.ping(reconnect=True)
+        cur = conn.cursor()
+        
+        #年データから
+        if(request.json['year'] is not None):
+            print('yearが格納されている')
+            print(request.json['year'])
+            year = request.json['year']
+            cur.execute('select tokuchou from tokuchou where date = %s',[year])
+            table = cur.fetchall()
+            table=table[0][0].split(' ')
+            print(table)
+
+            result = { 
+                "year":year,
+                "tokuchou": table
+            }
+            return make_response(jsonify(result))
+    else:
+        return make_response(jsonify({"POST ERROR": 'could not connect to api by post'}))
 
 # エラーハンドリング
-@api.errorhandler(404)
+@app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 # ファイルをスクリプトとして実行した際に
 # ホスト0.0.0.0, ポート3001番でサーバーを起動
 if __name__ == '__main__':
-    api.run(host='0.0.0.0', port=3001)
+    app.run(host='0.0.0.0', port=3001)
