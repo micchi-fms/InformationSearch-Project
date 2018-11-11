@@ -60,4 +60,4 @@ def not_found(error):
 # ファイルをスクリプトとして実行した際に
 # ホスト0.0.0.0, ポート3001番でサーバーを起動
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3001)
+    app.run(port=3001)
