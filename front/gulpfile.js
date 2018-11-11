@@ -31,7 +31,8 @@ var config = {
         files: [
             './app/*.js',
             './app/index.html',
-            './app/assets/*'
+            './app/assets/*',
+            './app/*.css'
         ]
     }
 };

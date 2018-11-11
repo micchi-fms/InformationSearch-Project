@@ -1,0 +1,44 @@
+ul, ol {
+    padding: 0;
+    position: relative;
+}
+
+ul li, ol li {
+    color: #2d8fdd;
+    border-left: solid 6px #2d8fdd;/*左側の線*/
+    background: #f1f8ff;/*背景色*/
+    margin-bottom: 3px;/*下のバーとの余白*/
+        line-height: 1.5;
+        padding: 0.5em;
+    list-style-type: none!important;/*ポチ消す*/
+}
+
+.list_year{
+    width: 80px;
+    float: left;
+}
+.list_toku{
+    width: 120px;
+    float: left;
+}
+.list_toku li{
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+table {
+    border-collapse: collapse;
+    border: solid 2px orange;/*表全体を線で囲う*/
+  }
+  table th, table td {
+    border: dashed 1px orange;/**/
+    /*破線 1px オレンジ*/
+  }
+
+td {
+    padding: 5px 10px;
+}
+
+th {
+    padding: 5px 0px;
+}

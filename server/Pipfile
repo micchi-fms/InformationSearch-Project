@@ -7,6 +7,8 @@ name = "pypi"
 flask = "*"
 mysql-connector-python-rf = "*"
 configparser = "*"
+flask-cors = "*"
+flask-restful = "*"
 
 [dev-packages]
 
