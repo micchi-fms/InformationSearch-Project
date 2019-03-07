@@ -16,10 +16,8 @@ def extract_feature_words_string(terms, tfidfs, i, n):
     words_string = " ".join(words)
     return words_string
 
+# 書き直す
 filename = pd.read_csv('wakachi6.csv')
-
-ldate = []
-lwakachi = []
 
 ldate =  filename['date']
 lwakachi =  filename['wakachi']
@@ -43,15 +41,7 @@ tfidfs = tfidf_matrix.toarray()
 data_frame = pd.DataFrame(index=[], columns=['date_year', 'tokuchou'])
 
 for i in range(0, len(ldate)):
-    print("\n------------------------------------------")
-    print(ldate[i])
     stokens=extract_feature_words_string(terms, tfidfs, i, 20)
-    print(stokens)
-    # for x in  extract_feature_words(terms, tfidfs, i, 20):
-    #     print(x),
-
-    #     tokuchou.append(x)　#追加
-    #     tokuchou_str = " ".join(tokuchou)　#追加
 
     series = pd.Series([ldate[i], stokens], index=data_frame.columns)
     data_frame = data_frame.append(series, ignore_index = True)

@@ -36,8 +36,6 @@ class Year(Resource):
         
         params = request.args
         if(params.get('year') is not None):
-            print('yearが格納されている')
-            print(params.get('year'))
             year = params.get('year')
             cur.execute('select tokuchou from tokuchou where date = %s',[year])
             table = cur.fetchall()
@@ -70,19 +68,12 @@ class YearWord(Resource):
         cur = conn.cursor()
         
         params = request.args
-        print(params)
-        # if((params.get('year') is not None) and (params.get('word') is not None)):
-        print('year,wordが格納されている')
-        print(year)
-        # print(params.get('year'))
+
         print(params.get('word'))
-        # year = params.get('year')
         word = params.get('word')
         word = '%'+word+'%'
         cur.execute('select * from origin partition(p%s) where dialogue like %s;',[year,word])
         table = cur.fetchall()
-        # table=table[0][0].split(' ')
-        print(table)
 
         result = { 
             "year":year,
